@@ -112,7 +112,7 @@ export const UpdateProfileModal = (props: {
           Scroll or pinch to zoom in and out. Drag to move the image.
         </span>
 
-        <div className="relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-xl w-96 h-96">
+        <div className="relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-[32px] w-64 h-64">
           <Cropper
             image={pfp!}
             crop={crop}
@@ -176,7 +176,7 @@ export const UpdateProfileModal = (props: {
             className={`btn-primary`}
             disabled={updating}
           >
-            Save as new profile picture
+            Save
           </button>
         </div>
       </div>

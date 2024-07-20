@@ -97,14 +97,14 @@ export const UserInfo = (props: { user: GivenUser }) => {
             onClick={() => setEditMode(!editMode)}
           >
             <div
-              className={`relative group cursor-pointer rounded-3xl w-16 h-16 flex-shrink-0 overflow-hidden `}
+              className={`relative group cursor-pointer rounded-3xl w-16 h-16 flex-shrink-0 overflow-hidden shadow-md`}
             >
               <UserProfile
                 user={user!}
                 pfp={pfpUrl}
-                className={`w-full h-full drop-shadow-md ${
-                  editMode && `blur-sm`
-                } transition-all rounded-none text-base`}
+                className={`w-full h-full ${
+                  editMode && pfpUrl === user?.pfp && `blur-sm`
+                } transition-all rounded-3xl text-base`}
               />
               <div
                 className={`flex flex-col gap-2 items-center justify-center absolute inset-0 bg-gray-900/30 rounded-3xl transition-all duration-150 ${
@@ -113,8 +113,8 @@ export const UserInfo = (props: { user: GivenUser }) => {
                     : `opacity-0  pointer-events-none`
                 }`}
                 onClick={(e) => {
-                    e.stopPropagation()
-                    pfpinput.current?.click()
+                  e.stopPropagation();
+                  pfpinput.current?.click();
                 }}
               >
                 <PencilIcon className={`w-4 h-4 text-gray-50`} />
@@ -202,7 +202,6 @@ export const UserInfo = (props: { user: GivenUser }) => {
           setPfpFile(null);
           setCroppedPFP(null);
         }}
-        
       />
     </div>
   );
