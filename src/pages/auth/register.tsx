@@ -70,10 +70,6 @@ export const Register = () => {
       );
       return false;
     }
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters");
-      return false;
-    }
     // everything is good, proceed to register with server
     if (loading) return;
     setLoading(true);

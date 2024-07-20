@@ -7,7 +7,7 @@ export const useSelf = (u?: GivenUser) => {
   useEffect(() => {
     if (SelfUserClass.getInstance().user)
       setUser(SelfUserClass.getInstance().user);
-    const second = (user) => {
+    const second = (user: GivenUser) => {
       setUser(user);
     };
     SelfUserClass.getInstance().on("change", second);

@@ -4,7 +4,6 @@ import { GiTimeBomb } from "react-icons/gi";
 import { FaUserFriends } from "react-icons/fa";
 import { MdOutlineSettingsSuggest } from "react-icons/md";
 import { GiPartyPopper } from "react-icons/gi";
-import { MdAdd } from "react-icons/md";
 
 export default function Sidebar() {
     return (
