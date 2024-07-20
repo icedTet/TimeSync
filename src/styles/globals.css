@@ -12,7 +12,7 @@
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0; 
   }
 }
 
@@ -31,3 +31,86 @@ body {
     text-wrap: balance;
   }
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;300;400;500;600;700;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply text-gray-800 dark:text-gray-100 ;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+/* a{
+    @apply text-rose-800;
+} */
+button {
+    @apply transition-colors duration-150;
+}
+svg {
+    /* @apply transition-none; */
+}
+.meshy {
+    background-color:hsla(0,100%,59%,1);
+background-image:
+radial-gradient(at 40% 20%, hsla(28,100%,74%,1) 0px, transparent 50%),
+radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%),
+radial-gradient(at 0% 50%, hsla(355,100%,93%,1) 0px, transparent 50%),
+radial-gradient(at 80% 50%, hsla(340,100%,76%,1) 0px, transparent 50%),
+radial-gradient(at 0% 100%, hsla(22,100%,77%,1) 0px, transparent 50%),
+radial-gradient(at 80% 100%, hsla(242,100%,70%,1) 0px, transparent 50%),
+radial-gradient(at 0% 0%, hsla(343,100%,76%,1) 0px, transparent 50%);
+}
+.basicinput {
+    @apply w-full h-12 rounded-lg border border-gray-200 focus:border-rose-800 focus:outline-none px-4 bg-gray-100/25 shadow-inner font-wsans text-base text-gray-600 disabled:opacity-50;
+}
+.inputlabel {
+    @apply text-gray-900/30 font-medium font-wsans text-sm;
+}
+.btn-primary {
+    @apply w-fit bg-rose-900 hover:bg-rose-700 text-white font-wsans font-bold py-2 px-4 rounded-2xl text-lg disabled:opacity-20 disabled:cursor-not-allowed;
+}
+
+
+.auth-nextAction {
+    @apply border border-gray-900/10 px-4 min-h-[80px] py-4 w-full rounded-2xl flex flex-row gap-4 items-center hover:bg-gray-900/5 transition-all duration-300 cursor-pointer
+}
+
+.auth-nextAction-icon {
+    @apply text-3xl;
+}
+.auth-nextAction-content {
+    @apply flex flex-col gap-1 flex-grow;
+}
+.auth-nextAction-content > h3 {
+    @apply font-poppins text-xl font-semibold
+}
+.auth-nextAction-content > span {
+    @apply font-wsans text-sm text-gray-600;
+}
+.mutedLink {
+    @apply text-gray-900/30 text-sm no-underline hover:text-gray-900/50;
+}
+
+
+#nprogress .bar {
+   @apply bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 h-1 w-full;
+    position: fixed;
+    z-index: 1031;
+    top: 0;
+    left: 0;
+  
+    width: 100%;
+  }
