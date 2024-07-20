@@ -3947,6 +3947,13 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
+parse-ical@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/parse-ical/-/parse-ical-1.0.4.tgz#60ac494c5454e4b5917104c926a39bca38988e97"
+  integrity sha512-0qVXciWNcHHnfwnmXnCgnEWDCCMcgQlBvZZGdoQZuBOWR/7wS+q5XSXvvaY0S9XG3tKoDJOc/Nswyh0JrDJJcg==
+  dependencies:
+    rrule "^2.8.1"
+
 parseley@^0.12.0:
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/parseley/-/parseley-0.12.1.tgz#4afd561d50215ebe259e3e7a853e62f600683aef"
@@ -4337,6 +4344,13 @@ rimraf@^3.0.2:
   integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
   dependencies:
     glob "^7.1.3"
+
+rrule@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/rrule/-/rrule-2.8.1.tgz#e8341a9ce3e68ce5b8da4d502e893cd9f286805e"
+  integrity sha512-hM3dHSBMeaJ0Ktp7W38BJZ7O1zOgaFEsn41PDk+yHoEtfLV+PoJt9E9xAlZiWgf/iqEqionN0ebHFZIDAp+iGw==
+  dependencies:
+    tslib "^2.4.0"
 
 run-parallel@^1.1.9:
   version "1.2.0"

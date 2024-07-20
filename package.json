@@ -16,6 +16,7 @@
     "mongodb": "^6.8.0",
     "next": "14.2.5",
     "nodemailer": "^6.9.14",
+    "parse-ical": "^1.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-email": "2.1.5"
