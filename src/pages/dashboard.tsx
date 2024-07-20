@@ -9,7 +9,7 @@ export const Dashboard = (props: { user: GivenUser }) => {
   return (
     <div className={`w-full min-h-screen flex flex-row`}>
       <div className={`flex-grow h-screen break-all`}>
-        Dashboard {JSON.stringify(props.user)} <a href="/">back</a>
+        Dashboard {JSON.stringify(props.user)}
       </div>
     </div>
   );

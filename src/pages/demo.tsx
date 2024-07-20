@@ -60,11 +60,11 @@ export const DemoPage = () => {
   return periods.length ? (
     <div className={`flex flex-row gap-4`}>
       {periods.map((period) => (
-        <div className={`p-2 bg-red-300`}>
+        <div className={`p-2 bg-red-300`} key={JSON.stringify(period)}>
           <h1>{period.start.toLocaleTimeString()}</h1>
           <h1>{period.end.toLocaleTimeString()}</h1>
           {period.free.map((time) => (
-            <h1>{time}</h1>
+            <h1 key={time}>{time}</h1>
           ))}
         </div>
       ))}

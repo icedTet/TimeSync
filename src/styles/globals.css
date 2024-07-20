@@ -54,7 +54,7 @@ code {
     monospace;
 }
 /* a{
-    @apply text-rose-800;
+    @apply text-gray-800;
 } */
 button {
     @apply transition-colors duration-150;
@@ -74,13 +74,13 @@ radial-gradient(at 80% 100%, hsla(242,100%,70%,1) 0px, transparent 50%),
 radial-gradient(at 0% 0%, hsla(343,100%,76%,1) 0px, transparent 50%);
 }
 .basicinput {
-    @apply w-full h-12 rounded-lg border border-gray-200 focus:border-rose-800 focus:outline-none px-4 bg-gray-100/25 shadow-inner font-wsans text-base text-gray-600 disabled:opacity-50;
+    @apply w-full h-12 rounded-lg border border-gray-200 focus:border-gray-800 focus:outline-none px-4 bg-gray-100/25 shadow-inner font-wsans text-base text-gray-600 disabled:opacity-50;
 }
 .inputlabel {
     @apply text-gray-900/30 font-medium font-wsans text-sm;
 }
 .btn-primary {
-    @apply w-fit bg-rose-900 hover:bg-rose-700 text-white font-wsans font-bold py-2 px-4 rounded-2xl text-lg disabled:opacity-20 disabled:cursor-not-allowed;
+    @apply w-fit bg-gray-900 hover:bg-gray-700 text-white font-wsans font-medium py-2 px-12 rounded-3xl text-lg disabled:opacity-20 disabled:cursor-not-allowed;
 }
 
 
