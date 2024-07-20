@@ -52,4 +52,9 @@ export default async function handler(
       token: token,
     });
   }
+  return res.status(405).json({
+    success: false,
+    message: "Method not allowed",
+  });
+  
 }

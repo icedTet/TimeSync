@@ -46,9 +46,9 @@ export const DemoPage = () => {
       Date,
       Date
     ][][];
-    let minDuration = 0
+    let minDuration = 0;
     let inRange = [
-      todayWithHourAndMinute(0, 0),
+      todayWithHourAndMinute(18, 0),
       todayWithHourAndMinute(23, 59),
     ] as [Date, Date];
     console.log("Time to calculate free times", performance.now() - start);
