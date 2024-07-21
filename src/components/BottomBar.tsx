@@ -12,7 +12,7 @@ import { useSelf } from "../utils/ClientsideHelpers/useSelf";
 export const BottomBar = () => {
   const user = useSelf();
   return (
-    <div className="fixed bottom-0 left-0 w-full p-4 pb-6 backdrop-blur-lg bg-gradient-to-b from-white/0 to-white via-white/50">
+    <div className="sticky bottom-0 left-0 w-full p-4 pb-6 backdrop-blur-lg bg-gradient-to-b from-white/0 to-white via-white/50 z-40">
       <div
         className={`bg-white h-20 rounded-[28px] shadow-lg flex flex-row items-center justify-evenly`}
       >
@@ -26,9 +26,11 @@ export const BottomBar = () => {
           name="Home"
           icon={(props) => <UserGroupIcon {...props} />}
         />
-        <button className="w-16 h-16 rounded-full bg-gray-900 flex flex-row items-center justify-center">
-          <PlusIcon className="w-8 h-8 text-gray-100" />
-        </button>
+        <Link href="/events/create">
+          <button className="w-16 h-16 rounded-full bg-gray-900 flex flex-row items-center justify-center">
+            <PlusIcon className="w-8 h-8 text-gray-100" />
+          </button>
+        </Link>
         <NavLink
           href="/calendar"
           name="Home"
@@ -36,7 +38,15 @@ export const BottomBar = () => {
         />
         <Link href="/settings">
           <div className="w-12 h-12 rounded-full bg-gray-900/10">
-            {user && <UserProfile user={user} pfp={user.pfp} className={"w-12 h-12 rounded-2xl border-gray-200 border text-sm"} />}
+            {user && (
+              <UserProfile
+                user={user}
+                pfp={user.pfp}
+                className={
+                  "w-12 h-12 rounded-2xl border-gray-200 border text-sm"
+                }
+              />
+            )}
           </div>
         </Link>
       </div>

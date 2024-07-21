@@ -65,15 +65,20 @@ export const UserProfile = (props: {
   className: string;
   width?: number;
   height?: number;
+  style?: React.CSSProperties;
 }) => {
-  const { user, className, pfp } = props;
-  if (((user as PossibleUser).type === 1 && (user as PublicUser)?.pfp) || pfp) {
+  const { user, className, pfp, style } = props;
+
+  if (
+    (user && (user as PublicUser)?.pfp) ||
+    pfp
+  ) {
     return (
-      <div className={`relative ${className}`}>
+      <div className={`relative ${className}`} style={style}>
         <Image
           src={pfp || (user as PublicUser).pfp!}
           alt="Profile Picture"
-          className={className}
+          className={`${className} aspect-square shrink-0 grow-0`}
           width={props.width}
           height={props.height}
           // if no width/height, use 100% of parent
@@ -87,7 +92,7 @@ export const UserProfile = (props: {
       firstName={user?.firstName || "?"}
       lastName={user?.lastName}
       className={className}
-      style={{ width: props.width, height: props.height }}
+      style={{ width: props.width, height: props.height, ...style }}
     />
   );
 };

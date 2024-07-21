@@ -2,6 +2,7 @@ import {
   MinPriorityQueue,
   PriorityQueue,
 } from "@datastructures-js/priority-queue";
+import { isWithinInterval } from "date-fns";
 export const getAvailableTimes = (
   intervals: [Date, Date][],
   minDuration: number,
@@ -75,6 +76,11 @@ export const calculateFreeTimes = (
   minDuration: number,
   inRange: [Date, Date]
 ) => {
+  if (Math.floor((inRange[1].getTime() - inRange[0].getTime()) / 60000) <= 0) {
+    console.warn("No time in range");
+    return [];
+  }
+  console.log({ calendars, minDuration, inRange });
   // create an array x long where x is the difference in minutes between the two dates
   const timetable = Array(
     Math.floor((inRange[1].getTime() - inRange[0].getTime()) / 60000)
@@ -82,31 +88,41 @@ export const calculateFreeTimes = (
   for (let i = 0; i < timetable.length; i++) {
     timetable[i] = new PeopleFree(calendars.length);
   }
+  console.warn("Time start", timetable[0], calendars.length);
   // for each calendar set each minute of an event to true
   for (let eventI = 0; eventI < calendars.length; eventI++) {
     const events = calendars[eventI];
     for (const event of events) {
       const [start, end] = event;
-      console.warn(
-        "Event",
-        event,
-        "start",
-        Math.max(
-          Math.floor((start.getTime() - inRange[0].getTime()) / 60000),
-          0
-        ),
-        "end",
-        Math.floor((end.getTime() - inRange[0].getTime()) / 60000)
-      );
+      // skip if the event is not in the range
+      if (
+        !isWithinInterval(start, { start: inRange[0], end: inRange[1] }) &&
+        !isWithinInterval(end, { start: inRange[0], end: inRange[1] })
+      ) {
+        console.warn("Event not in range", start, end,"kkkk", inRange,Intl.DateTimeFormat().resolvedOptions().timeZone);
+        continue;
+      }
+      
+      console.warn("Event isRange", start, end, inRange,);
       for (
         let i = Math.max(
           Math.floor((start.getTime() - inRange[0].getTime()) / 60000),
           0
         );
-        i < Math.floor((end.getTime() - inRange[0].getTime()) / 60000);
+        i < Math.min(Math.floor((end.getTime() - inRange[0].getTime()) / 60000), timetable.length);
         i++
       ) {
-        if (i === 1141) console.warn("Event Setting", i, eventI);
+        console.warn(
+          "Event Setting",
+          Math.max(
+            Math.floor((start.getTime() - inRange[0].getTime()) / (60 * 1000)),
+            0
+          ),
+          eventI,
+          timetable.length,
+          start.toString(),
+          inRange[0].toString()
+        );
         timetable[i].takeAvail(eventI);
       }
       console.warn(
@@ -135,7 +151,7 @@ export const calculateFreeTimes = (
       );
     }
   }
-  console.warn("Time check", timetable[60 * 16 + 1]);
+  console.warn("Time check", timetable.length);
   let freeTimeIntervals = [] as {
     start: Date;
     end: Date;
@@ -175,12 +191,12 @@ export const calculateFreeTimes = (
       else {
         inTimeInterval = false;
         if (minDuration <= i - currentFreeTime[0]) {
-        freeTimeIntervals.push({
-          start: new Date(inRange[0].getTime() + currentFreeTime[0] * 60000),
-          end: new Date(inRange[0].getTime() + i * 60000),
-          free: currentPeople?.getAvailable() ?? [],
-        });
-    }
+          freeTimeIntervals.push({
+            start: new Date(inRange[0].getTime() + currentFreeTime[0] * 60000),
+            end: new Date(inRange[0].getTime() + i * 60000),
+            free: currentPeople?.getAvailable() ?? [],
+          });
+        }
       }
     }
     // if we are not in a time interval, and there is someone free in this minute, we begin a new time interval

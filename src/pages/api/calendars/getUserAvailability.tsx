@@ -11,6 +11,7 @@ import {
 import { getUserID } from "../../../utils/Clients/AuthManager";
 import { parseCal } from "../../../utils/ServersideHelpers/ICalUtils";
 import { hash } from "crypto";
+import { format } from "date-fns";
 type NotFoundResponse = null;
 export type getUserCalendarsResponse =
   | {
@@ -30,12 +31,12 @@ export default async function handler(
       start = Date.now() - 1000 * 60 * 60 * 24 * 100;
     }
     if (!end) {
-      end = Date.now() + 1000 * 60 * 60 * 24 * 100;
+      end = Date.now() + 1000 * 60 * 60 * 24 * 370;
     }
     if (!ObjectId.isValid(userID)) {
       return res.status(404).json(null);
     }
-    console.log(userID);
+    console.log(userID, format(start, "yyyy-MM-dd HH:mm:ss a"), format(end, "yyyy-MM-dd HH:mm:ss a"));
     const currentUserID = getUserID(req);
     if (!currentUserID) {
       return res.status(401).json(null);
