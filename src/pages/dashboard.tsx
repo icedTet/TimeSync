@@ -11,72 +11,20 @@ import {
 import { createDate } from "../utils/ServersideHelpers/MiniLib";
 import { isWithinInterval } from "date-fns";
 import { useAPIProp } from "../utils/useProp";
+import Link from "next/link";
 
-const fakeEvent = [
-  {
-    _id: "1",
-    icalID: "1",
-    title: "Sunrise Devils Bridge eHike1",
-    description: "Hiking at sunrise",
-    start: createDate(6, 15, 5, 30),
-    end: createDate(6, 15, 8, 30),
-    type: "custom",
-    pendingMembers: ["669aee1627609eba805dd247"],
-    confirmedMembers: ["669b1375968f7ad77647f34c"],
-    background: "/demo/hike.jpeg",
-    declinedMembers: ["669afe25bf61858effbdf558"],
-  },
-  {
-    _id: "1",
-    icalID: "1",
-    title: "Sunrise Devils Bridge Hike2",
-    description: "Hiking at sunrise",
-    start: createDate(6, 15, 5, 30),
-    end: createDate(6, 15, 8, 30),
-    type: "custom",
-    pendingMembers: ["669aee1627609eba805dd247"],
-    confirmedMembers: ["669b1375968f7ad77647f34c"],
-    background: "/demo/hike.jpeg",
-    declinedMembers: ["669afe25bf61858effbdf558"],
-  },
-  {
-    _id: "1",
-    icalID: "1",
-    title: "Sunrise Devils Bridge Hike3",
-    description: "Hiking at sunrise",
-    start: createDate(6, 15, 5, 30),
-    end: createDate(6, 15, 8, 30),
-    type: "custom",
-    pendingMembers: ["669aee1627609eba805dd247"],
-    confirmedMembers: ["669b1375968f7ad77647f34c"],
-    background: "/demo/hike.jpeg",
-    declinedMembers: ["669afe25bf61858effbdf558"],
-  },
-] as PlannedEvent[];
-const fakeEvent2 = {
-  _id: "1",
-  icalID: "1",
-  title: "Pranav's Birthday Party",
-  description: "Hiking at sunrise",
-  start: createDate(5, 9, 18, 30),
-  end: createDate(5, 9, 22, 30),
-  type: "custom",
-  pendingMembers: [],
-  confirmedMembers: [
-    "669aee1627609eba805dd247",
-    "669b1375968f7ad77647f34c",
-    "669afe25bf61858effbdf558",
-  ],
-  background: "/demo/act2.jpg",
-  declinedMembers: [],
-} as PlannedEvent;
 export const Dashboard = (props: { user: GivenUser }) => {
   const user = useSelf(props.user);
-  const [pendingEvents,refreshEventInvites] = useAPIProp<PlannedEvent[]>({
+  const [pendingEvents, refreshEventInvites] = useAPIProp<PlannedEvent[]>({
     APIPath: "/api/events/getEventInvites",
     defaultValue: [],
   });
-  const currentEvent = fakeEvent2;
+  const [acceptedEvents, refreshAcceptedEvents] = useAPIProp<PlannedEvent[]>({
+    APIPath: "/api/events/getEvents",
+    defaultValue: [],
+  });
+
+  const currentEvent = acceptedEvents?.[0];
   return (
     <div className={`w-full grow flex flex-col gap-8 p-8 pt-16`}>
       <h1 className={`text-xl font-poppins font-normal text-gray-500`}>
@@ -99,7 +47,9 @@ export const Dashboard = (props: { user: GivenUser }) => {
         </div>
         <div className={`flex flex-col gap-4 z-0 relative p-0 items-center`}>
           {currentEvent && (
-            <EventMiniCard event={currentEvent} className={`w-full`} />
+            <Link href={`/events/${currentEvent._id}`} className={`w-full`}>
+              <EventMiniCard event={currentEvent} className={`w-full`} />
+            </Link>
           )}
         </div>
       </div>
@@ -116,7 +66,9 @@ export const Dashboard = (props: { user: GivenUser }) => {
           className={`flex flex-col gap-4 z-0 relative p-4 bg-gray-50 rounded-2xl border border-gray-900/5 items-center`}
         >
           {pendingEvents?.[0] && (
-            <EventDetailCard event={pendingEvents[0]} className={`w-full`} />
+            <Link href={`/events/${pendingEvents[0]._id}`} className={`w-full`}>
+              <EventDetailCard event={pendingEvents[0]} className={`w-full`} />
+            </Link>
           )}
 
           {pendingEvents?.[1] && (

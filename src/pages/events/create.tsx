@@ -21,6 +21,8 @@ import { addHours, format, set, subHours } from "date-fns";
 import { CalendarDaysIcon } from "@heroicons/react/16/solid";
 import { useCalendarCalculator } from "../../utils/ClientsideHelpers/useCalendarCalculator";
 import { UserProfile } from "../../components/user/UserProfile";
+import { fetcher } from "../../utils/fetcher";
+import { useRouter } from "next/router";
 
 export const CreateEvent = (props: { user: GivenUser }) => {
   const self = useSelf(props.user);
@@ -31,15 +33,17 @@ export const CreateEvent = (props: { user: GivenUser }) => {
   const [bgURL, setBgURL] = useState("");
   const bgInput = useRef<HTMLInputElement>(null);
 
+  const [eventName, setEventName] = useState("");
+
   const [participants, setParticipants] = useState(
     new Map<string, PublicUser>()
   );
-  useEffect(()=>{
+
+  const router = useRouter()
+  useEffect(() => {
     participants.set(self?._id || "", self as PublicUser);
-    setParticipants(new Map<string, PublicUser>(
-      participants
-    ));
-  },[self])
+    setParticipants(new Map<string, PublicUser>(participants));
+  }, [self]);
   const [showAvailabilityFinder, setShowAvailabilityFinder] = useState(false);
   const [targetDate, setTargetDate] = useState(
     format(new Date(), "yyyy-MM-dd")
@@ -74,6 +78,14 @@ export const CreateEvent = (props: { user: GivenUser }) => {
       setBgURL(URL.createObjectURL(bgFile));
     }
   }, [bgFile]);
+  const [selectedStartTime, setSelectedStartTime] = useState(
+    null as Date | null
+  );
+  const [selectedEndTime, setSelectedEndTime] = useState(null as Date | null);
+  useEffect(() => {
+    setSelectedStartTime(null);
+    setSelectedEndTime(null);
+  }, [participants]);
 
   return (
     <>
@@ -183,25 +195,53 @@ export const CreateEvent = (props: { user: GivenUser }) => {
               </span>
             </div>
           </div>
-          <button
-            className={`bg-black rounded-2xl p-2.5 text-white font-medium mt-4`}
-          >
-            Show Availability ({slotCount} options)
-          </button>
+
           {/* {JSON.stringify(slotCount)}
            */}
-          {calculator.freeTimes?.map((slot) => (
-            <div className={`flex flex-row gap-4 items-center`} key={JSON.stringify(slot)}>
-              <span className={`text-gray-900/40 text-sm font-wsans`}>
-                {format(slot.start, "hh:mm a")} - {format(slot.end, "hh:mm a")}
-              </span>
-              <div className={`flex flex-row gap-4`}>
-                {Array.from(new Set(slot.peopleFree)).map((user) => (
-                  <UserProfile user={participants.get(user)} className={`h-8 w-8 rounded-full text-sm`} key={user} />
-                ))}
+          <div
+            className={`flex flex-col w-full border border-gray-250 bg-gray-100 rounded-xl overflow-hidden`}
+          >
+            {calculator.freeTimes?.map((slot) => (
+              <div
+                className={`flex flex-row gap-4 items-center p-4 border-b border-gray-400 last:border-none justify-between hover:bg-gray-50 ${
+                  selectedStartTime?.getTime() === slot.start.getTime()
+                    ? "!bg-black w-full !text-white"
+                    : `text-gray-900/40`
+                }`}
+                key={JSON.stringify(slot)}
+                onClick={() => {
+                  setSelectedStartTime(slot.start);
+                  setSelectedEndTime(slot.end);
+                }}
+              >
+                <span className={` text-sm font-wsans`}>
+                  {format(slot.start, "hh:mm a")} -{" "}
+                  {format(slot.end, "hh:mm a")}
+                </span>
+                <div className={`flex flex-row gap-0 relative`}>
+                  {Array.from(new Set(slot.peopleFree)).map((user, i) => (
+                    <UserProfile
+                      user={participants.get(user)}
+                      className={`h-8 w-8 rounded-full text-sm -ml-6 first:ml-0`}
+                      key={user}
+                      style={{
+                        zIndex: i,
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <button
+            className={`bg-blue-600 rounded-2xl p-2.5 text-white font-medium mt-4`}
+            onClick={() => {
+              console.log(selectedStartTime);
+              setShowAvailabilityFinder(false);
+            }}
+          >
+            Select Time
+          </button>
         </div>
       </Modal>
       {bgFile && (
@@ -236,6 +276,8 @@ export const CreateEvent = (props: { user: GivenUser }) => {
             <input
               className={`basicinput !bg-gray-100 !rounded-2xl`}
               placeholder="A New Event"
+              value={eventName}
+              onChange={(e) => setEventName(e.target.value)}
             />
           </div>
         </div>
@@ -339,14 +381,82 @@ export const CreateEvent = (props: { user: GivenUser }) => {
           <span className={`text-gray-900/40 text-sm font-wsans`}>
             Event Time
           </span>
-          <button
-            className={`bg-black rounded-2xl p-2.5 text-white font-medium flex flex-row gap-4 items-center justify-center`}
-            onClick={() => setShowAvailabilityFinder(true)}
-          >
-            <CalendarDateRangeIcon className={`w-6 h-6 text-white`} />
-            Find group availability
-          </button>
+          <div className={`flex flex-row gap-2`}>
+            {selectedStartTime && selectedEndTime && (
+              <div
+                className={`flex flex-col w-full border border-gray-250 bg-gray-100 rounded-xl overflow-hidden`}
+              >
+                {calculator.freeTimes
+                  ?.filter((slot) => {
+                    return (
+                      slot.start.getTime() >= selectedStartTime.getTime() &&
+                      slot.end.getTime() <= selectedEndTime.getTime()
+                    );
+                  })
+                  .map((slot) => (
+                    <div
+                      className={`flex flex-row gap-4 items-center p-4 border-b border-gray-400 last:border-none justify-between bg-gray-50`}
+                      key={JSON.stringify(slot)}
+                      onClick={() => {
+                        setSelectedStartTime(slot.start);
+                        setSelectedEndTime(slot.end);
+                      }}
+                    >
+                      <span className={` text-sm font-wsans`}>
+                        {format(slot.start, "hh:mm a")} -{" "}
+                        {format(slot.end, "hh:mm a")}
+                      </span>
+                      <div className={`flex flex-row gap-0 relative`}>
+                        {Array.from(new Set(slot.peopleFree)).map((user, i) => (
+                          <UserProfile
+                            user={participants.get(user)}
+                            className={`h-8 w-8 rounded-full text-sm -ml-6 first:ml-0`}
+                            key={user}
+                            style={{
+                              zIndex: i,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+            <button
+              className={`bg-black rounded-2xl p-2.5 text-white font-medium flex flex-row gap-4 items-center justify-center shrink-0 grow`}
+              onClick={() => setShowAvailabilityFinder(true)}
+            >
+              <CalendarDateRangeIcon className={`w-6 h-6 text-white`} />
+              {selectedStartTime && selectedEndTime
+                ? ""
+                : `Show group availability`}
+            </button>
+          </div>
         </div>
+        <button
+          className={`bg-blue-600 rounded-2xl p-2.5 text-white font-medium`}
+          onClick={async () => {
+            console.log("Create Event");
+            let res = await fetcher(`/api/events/createEvent`, {
+              method: "POST",
+              body: JSON.stringify({
+                title: eventName,
+                members: Array.from(participants.keys()),
+                start: selectedStartTime?.getTime(),
+                end: selectedEndTime?.getTime(),
+                background: bgURL,
+              }),
+            });
+            if (res.ok) {
+              console.log("Event Created");
+              alert("Event Created");
+            }
+            let data = await res.json();
+            router.push(`/events/${data._id}`);
+          }}
+        >
+          Create Event
+        </button>
       </div>
     </>
   );

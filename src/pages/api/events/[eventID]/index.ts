@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import {  PlannedEvent } from "../../../utils/types/calendar";
-import { getEvent } from "../../../utils/ServersideHelpers/eventUtils";
+import { PlannedEvent } from "../../../../utils/types/calendar";
+import { getEvent } from "../../../../utils/ServersideHelpers/eventUtils";
 type NotFoundResponse = null;
 export type GetEventResponse = PlannedEvent | NotFoundResponse;
 export default async function handler(

@@ -13,11 +13,27 @@ import { UserInfo } from "../../components/settings/UserInfo";
 
 export const UserAppearance = (props: { user: GivenUser }) => {
   const user = useSelf(props.user);
+  const router = useRouter();
   return (
     <div className={`flex flex-col gap-8 px-4 pt-16 w-full grow`}>
       <UserInfo user={user!} />
       <div
         className={`bg-gray-50 p-1 rounded-2xl border border-gray-900/10 flex flex-col`}
+      >
+        <div
+          className={`flex flex-row gap-4 items-center text-gray-700 w-full justify-between p-3 px-6 `}
+          onClick={() => {
+            router.push("/settings/calendars");
+          }}
+        >
+          <span className={` text-sm font-medium font-wsans`}>
+            Manage Calendars
+          </span>
+          <ChevronRightIcon className={`w-4 h-4 `} />
+        </div>
+      </div>
+      <div
+        className={`bg-gray-50 opacity-20 p-1 rounded-2xl border border-gray-900/10 flex flex-col`}
       >
         <div
           className={`flex flex-row gap-4 items-center text-gray-700 w-full justify-between p-3 px-6 border-b`}
@@ -27,6 +43,7 @@ export const UserAppearance = (props: { user: GivenUser }) => {
           </span>
           <ChevronRightIcon className={`w-4 h-4 `} />
         </div>
+
         <div
           className={`flex flex-row gap-4 items-center text-red-400 w-full justify-between p-3 px-6`}
         >
