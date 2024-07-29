@@ -72,7 +72,7 @@ export const UserInfo = (props: { user: GivenUser }) => {
   };
 
   return (
-    <div className={`flex flex-col gap-4 w-full max-w-prose`}>
+    <div className={`flex flex-col gap-4 w-full`}>
       <input
         type="file"
         onChange={(e) => {
