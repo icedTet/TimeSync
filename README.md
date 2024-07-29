@@ -1,4 +1,4 @@
-![](./hero.png)
+![TimeSync Hero Lander](https://github.com/icedTet/TimeSync/blob/main/ghassets/hero.png?raw=true)
 # TimeSync
 Hey there! This is the repo for TimeSync! An app designed for you and your friends to coordinate meetups!
 ## Getting Started
